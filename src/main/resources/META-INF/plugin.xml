@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>engineering.b67.intellij-reek-plugin</id>
-    <name>Plugin display name here</name>
-    <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
+    <name>Reek Linter</name>
+    <vendor email="hello+intellij@b67.engineering" url="https://b67.engineering">b67.engineering</vendor>
 
     <description><![CDATA[
     Enter short description for your plugin here.<br>
