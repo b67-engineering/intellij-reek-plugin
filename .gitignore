@@ -78,6 +78,7 @@ fabric.properties
 .idea/caches/build_file_checksums.ser
 
 # Custom (not sure if I want to commit them)
+/build
 /gradle
 gradlew
 gradlew.bat
