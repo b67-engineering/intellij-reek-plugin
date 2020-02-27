@@ -1,6 +1,5 @@
-package engineering.b67.intellij_linter;
+package engineering.b67.intellij_linter_base;
 
-import engineering.b67.intellij_linter.command.Warning;
 import org.junit.Assert;
 import org.junit.Test;
 
