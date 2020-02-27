@@ -49,6 +49,7 @@ public class Executor {
         return commandLine;
     }
 
+    // FIXME: Delegate suffix outside
     private Path temporaryFile() throws LinterException {
         try {
             return Files.createTempFile(null, ".rb");
