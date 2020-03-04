@@ -6,6 +6,7 @@ public class Warning {
     private String description;
     private String url;
     private String type;
+    private String plugin;
 
     public Warning(
         Integer line,
@@ -29,6 +30,10 @@ public class Warning {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public void setPlugin(String plugin) {
+        this.plugin = plugin;
     }
 
     // FIXME: Remove Reek reference

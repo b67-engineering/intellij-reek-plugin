@@ -1,12 +1,16 @@
 package engineering.b67.intellij_linter_base;
 
-public class Result {
+import java.util.List;
 
-    public Result() {
+public abstract class Result {
 
+    protected String output;
+    protected String pluginName = "Undefined";
+    protected List<Warning> warnings;
+
+    public Result(String output) {
+        this.output = output;
     }
 
-    public void parse() {
-
-    }
+    public abstract List<Warning> getWarnings();
 }
