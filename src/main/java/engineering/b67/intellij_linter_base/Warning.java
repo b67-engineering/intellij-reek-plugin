@@ -36,9 +36,8 @@ public class Warning {
         this.plugin = plugin;
     }
 
-    // FIXME: Remove Reek reference
     public String getMessage() {
-        return String.format("Reek: %s: %s.", this.type, this.description);
+        return String.format("%s: %s: %s.", this.plugin, this.type, this.description);
     }
 
     public String getFormattedMessage() {
