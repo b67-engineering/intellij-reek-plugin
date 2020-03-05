@@ -9,14 +9,15 @@ public class WarningTest {
     public void testMessageAndFormattedMessageWithoutUrl() {
         // Given
         Warning warning = new Warning(1, 1, "Type", "Description");
+        warning.setPlugin("Plugin name");
 
         // When
         String message = warning.getMessage();
         String formattedMessage = warning.getFormattedMessage();
 
         // Then
-        Assert.assertEquals(message, "Reek: Type: Description.");
-        Assert.assertEquals(formattedMessage, "Reek: Type: Description.");
+        Assert.assertEquals(message, "Plugin name: Type: Description.");
+        Assert.assertEquals(formattedMessage, "Plugin name: Type: Description.");
     }
 
     @Test
@@ -24,12 +25,13 @@ public class WarningTest {
         // Given
         Warning warning = new Warning(1, 1, "Type", "Description");
         warning.setUrl("https://google.com");
+        warning.setPlugin("Plugin name");
 
         // When
         String formattedMessage = warning.getFormattedMessage();
 
         // Then
-        Assert.assertEquals(formattedMessage, "Reek: Type: Description. <a href=\"https://google.com\">Documentation</a>.");
+        Assert.assertEquals(formattedMessage, "Plugin name: Type: Description. <a href=\"https://google.com\">Documentation</a>.");
     }
 
     @Test
