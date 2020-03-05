@@ -4,13 +4,11 @@ import com.intellij.execution.ExecutionException;
 import com.intellij.execution.configurations.GeneralCommandLine;
 import com.intellij.openapi.vfs.VirtualFile;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.util.ArrayList;
 
 public class Executor {
 
-    private String[] parameters;
+    private ArrayList<String> parameters;
     private String executable;
     private VirtualFile virtualFile;
     private String basePath;
@@ -21,7 +19,7 @@ public class Executor {
         this.basePath = basePath;
     }
 
-    public void setParameters(String[] parameters) {
+    public void setParameters(ArrayList<String> parameters) {
         this.parameters = parameters;
     }
 
@@ -47,14 +45,5 @@ public class Executor {
         commandLine.addParameter(this.virtualFile.getPath());
 
         return commandLine;
-    }
-
-    // FIXME: Delegate suffix outside
-    private Path temporaryFile() throws LinterException {
-        try {
-            return Files.createTempFile(null, ".rb");
-        } catch (IOException ex) {
-            throw new LinterException(ex);
-        }
     }
 }
