@@ -8,11 +8,8 @@ import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,32 +18,20 @@ public class ReekExecutorRunner extends ExecutorRunner implements Runner {
 
     @Override
     public List<Warning> execute(@NotNull Editor editor) {
-        VirtualFile file = createVirtualFile(editor.getDocument(), "rb");
+        VirtualFile file = createVirtualFile(editor.getDocument(), getFileExtension());
         Project project = editor.getProject();
-        ProjectService state = ProjectService.getInstance(project);
+        ReekService state = ReekService.getInstance(project);
 
-        Executor executor = new Executor(
-                StringUtils.defaultIfEmpty(state.executable, getDefaultExecutable()),
+        Executor executor = createExecutor(
+                StringUtils.defaultIfEmpty(state.getExecutable(), getDefaultExecutable()),
                 file,
-                project.getBasePath()
+                project.getBasePath(),
+                state
         );
-
-        ArrayList<String> parameters = getParameters();
-
-        if (!state.config.equals("")) {
-            parameters.add("--config");
-            parameters.add(state.config);
-        }
-
-        executor.setParameters(parameters);
 
         try {
             Process process = executor.run();
-
-            Reader inputStreamReader = new InputStreamReader(process.getInputStream());
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
-            String output = bufferedReader.lines().collect(Collectors.joining());
+            String output = getOutput(process);
 
             if (output.equals("")) {
                 // FIXME: Error occurred
@@ -56,17 +41,13 @@ public class ReekExecutorRunner extends ExecutorRunner implements Runner {
 
             return result.getWarnings();
         } finally {
-            try {
-                Files.delete(Paths.get(file.getPath()));
-            } catch (IOException ex) {
-                // FIXME: Can't remove file exception
-            }
+            this.deleteVirtualFile(file);
         }
     }
 
     @Override
-    public ArrayList<String> getParameters() {
-        return new ArrayList<String>() {
+    public ArrayList<String> getParameters(Service state) {
+        ArrayList<String> parameters = new ArrayList<String>() {
             {
                 add("--single-line");
                 add("--no-progress");
@@ -75,10 +56,30 @@ public class ReekExecutorRunner extends ExecutorRunner implements Runner {
                 add("json");
             }
         };
+
+        if (!state.getConfig().equals("")) {
+            parameters.add("--config");
+            parameters.add(state.getConfig());
+        }
+
+        return parameters;
     }
 
     @Override
     public String getDefaultExecutable() {
         return "reek";
+    }
+
+    @Override
+    public String getFileExtension() {
+        return "rb";
+    }
+
+    @Override
+    public String getOutput(Process process) {
+        Reader inputStreamReader = new InputStreamReader(process.getInputStream());
+        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+        return bufferedReader.lines().collect(Collectors.joining());
     }
 }

@@ -9,17 +9,18 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public abstract class ExecutorRunner implements Runner {
 
-    public Executor createExecutor(String executable, VirtualFile virtualFile, String basePath) {
+    public Executor createExecutor(String executable, VirtualFile virtualFile, String basePath, Service state) {
         Executor executor = new Executor(
                 executable,
                 virtualFile,
                 basePath
         );
 
-        executor.setParameters(getParameters());
+        executor.setParameters(getParameters(state));
 
         return executor;
     }
@@ -45,4 +46,11 @@ public abstract class ExecutorRunner implements Runner {
         }
     }
 
+    protected void deleteVirtualFile(VirtualFile file) {
+        try {
+            Files.delete(Paths.get(file.getPath()));
+        } catch (IOException ex) {
+            // FIXME: Can't remove file exception
+        }
+    }
 }
