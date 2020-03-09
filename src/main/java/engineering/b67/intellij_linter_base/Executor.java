@@ -2,11 +2,13 @@ package engineering.b67.intellij_linter_base;
 
 import com.intellij.execution.ExecutionException;
 import com.intellij.execution.configurations.GeneralCommandLine;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.vfs.VirtualFile;
 
 import java.util.ArrayList;
 
 public class Executor {
+    protected static final Logger log = Logger.getInstance(Executor.class);
 
     private ArrayList<String> parameters;
     private String executable;
@@ -24,6 +26,8 @@ public class Executor {
     }
 
     public Process run() {
+        log.info("Command: " + commandLine().getCommandLineString());
+
         try {
             return commandLine().createProcess();
         } catch (ExecutionException exception) {

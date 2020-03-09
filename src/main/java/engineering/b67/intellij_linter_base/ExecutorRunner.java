@@ -3,6 +3,7 @@ package engineering.b67.intellij_linter_base;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.diagnostic.Logger;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public abstract class ExecutorRunner implements Runner {
+    protected static final Logger log = Logger.getInstance(ExecutorRunner.class);
 
     public Executor createExecutor(String executable, VirtualFile virtualFile, String basePath, Service state) {
         Executor executor = new Executor(
@@ -49,8 +51,8 @@ public abstract class ExecutorRunner implements Runner {
     protected void deleteVirtualFile(VirtualFile file) {
         try {
             Files.delete(Paths.get(file.getPath()));
-        } catch (IOException ex) {
-            // FIXME: Can't remove file exception
+        } catch (IOException exception) {
+            log.error("Cannot remove temporary file!", exception);
         }
     }
 }

@@ -12,7 +12,15 @@
         <!-- Add your actions here -->
     </actions>
 
+    <idea-version since-build="172"/>
+
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.lang</depends>
     <depends>com.intellij.modules.ruby</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <externalAnnotator language="ruby" implementationClass="engineering.b67.intellij_reek_plugin.ReekAnnotator" />
+        <projectService serviceImplementation="engineering.b67.intellij_reek_plugin.ReekService" />
+        <projectConfigurable groupId="tools" instance="engineering.b67.intellij_reek_plugin.ProjectConfigurationPanel"/>
+    </extensions>
 </idea-plugin>

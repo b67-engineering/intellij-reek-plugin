@@ -34,7 +34,7 @@ public class ReekExecutorRunner extends ExecutorRunner implements Runner {
             String output = getOutput(process);
 
             if (output.equals("")) {
-                // FIXME: Error occurred
+                log.error("Empty output...");
             }
 
             Result result = new ReekResult(output);
