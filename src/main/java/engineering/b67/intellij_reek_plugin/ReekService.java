@@ -6,6 +6,7 @@ import com.intellij.openapi.components.State;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import engineering.b67.intellij_linter_base.Service;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @State(name = "ReekService")
@@ -25,7 +26,7 @@ public class ReekService extends Service implements PersistentStateComponent<Ree
     }
 
     @Override
-    public void loadState(ReekService state) {
+    public void loadState(@NotNull ReekService state) {
         XmlSerializerUtil.copyBean(state, this);
     }
 

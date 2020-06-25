@@ -19,7 +19,8 @@ dependencies {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version '2019.3.3'
+    version 'IU-192.7142.36'
+    plugins = ["org.jetbrains.plugins.ruby:2019.2.20191029"]
 
     updateSinceUntilBuild = false
 }
