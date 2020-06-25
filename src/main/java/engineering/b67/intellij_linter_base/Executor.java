@@ -38,9 +38,22 @@ public class Executor {
     private GeneralCommandLine commandLine() {
         final GeneralCommandLine commandLine = new GeneralCommandLine();
 
-        commandLine.setExePath(executable);
+        // FIXME: If it have interpreter,
+        // then needs to be splitted due to escaping
+        if (executable.contains("|")) {
+            String[] executableDetails = executable.split("\\|");
+            commandLine.setExePath(executableDetails[0]);
+
+            for (int i = 1; i < executableDetails.length; i++) {
+                commandLine.addParameters(executableDetails[i]);
+            }
+        } else {
+            commandLine.setExePath(executable);
+        }
+
         commandLine.setWorkDirectory(basePath);
         commandLine.withEnvironment(System.getenv());
+        commandLine.withParentEnvironmentType(GeneralCommandLine.ParentEnvironmentType.CONSOLE);
 
         for (String parameter : parameters) {
             commandLine.addParameters(parameter);

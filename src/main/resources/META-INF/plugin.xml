@@ -15,7 +15,7 @@
     <idea-version since-build="181.2784.17"/>
 
     <depends>com.intellij.modules.lang</depends>
-    <depends>org.jetbrains.plugins.ruby</depends>
+    <depends>com.intellij.modules.ruby</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <externalAnnotator language="ruby" implementationClass="engineering.b67.intellij_reek_plugin.ReekAnnotator" />

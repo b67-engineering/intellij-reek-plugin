@@ -1,6 +1,5 @@
 package engineering.b67.intellij_linter_base;
 
-import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.NotNull;
 
@@ -11,7 +10,7 @@ public interface Runner {
 
     ArrayList<String> getParameters(Service state);
 
-    String getDefaultExecutable();
+    String getDefaultExecutable(ExecutorContext executorContext);
 
     String getFileExtension();
 
@@ -19,5 +18,5 @@ public interface Runner {
 
     Executor createExecutor(String executable, VirtualFile virtualFile, String basePath, Service state);
 
-    List<Warning> execute(@NotNull final Editor editor);
+    List<Warning> execute(@NotNull final ExecutorContext executorContext);
 }
