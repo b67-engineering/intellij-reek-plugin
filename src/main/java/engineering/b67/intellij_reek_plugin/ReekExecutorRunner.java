@@ -6,6 +6,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import engineering.b67.intellij_linter_base.*;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.plugins.ruby.gem.GemUtil;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -17,13 +18,14 @@ import java.util.stream.Collectors;
 public class ReekExecutorRunner extends ExecutorRunner implements Runner {
 
     @Override
-    public List<Warning> execute(@NotNull Editor editor) {
+    public List<Warning> execute(@NotNull ExecutorContext executorContext) {
+        Editor editor = executorContext.getEditor();
         VirtualFile file = createVirtualFile(editor.getDocument(), getFileExtension());
         Project project = editor.getProject();
         ReekService state = ReekService.getInstance(project);
 
         Executor executor = createExecutor(
-                StringUtils.defaultIfEmpty(state.getExecutable(), getDefaultExecutable()),
+                StringUtils.defaultIfEmpty(state.getExecutable(), getDefaultExecutable(executorContext)),
                 file,
                 project.getBasePath(),
                 state
@@ -66,8 +68,15 @@ public class ReekExecutorRunner extends ExecutorRunner implements Runner {
     }
 
     @Override
-    public String getDefaultExecutable() {
-        return "reek";
+    public String getDefaultExecutable(ExecutorContext executorContext) {
+        // FIXME: Check if it is in bundler / sdk / whatever
+        // sdk - GemSearchUtil.findGem(executorContext.getSdk(), "reek");
+        // bundle - GemSearchUtil.findGem(executorContext.getModule(), "reek");
+
+        String executable = GemUtil.getGemExecutableRubyScriptPath(executorContext.getModule(), executorContext.getSdk(), "reek", "reek");
+        String interpreter = executorContext.getSdk().getHomePath();
+
+        return String.format("%s|%s", interpreter, executable);
     }
 
     @Override
