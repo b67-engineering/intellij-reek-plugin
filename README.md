@@ -6,3 +6,5 @@
 - [ ] Support bundler
 - [ ] Add notification that reek can't be found
 - [ ] Disable plugin if there is no reek
+- [ ] Tests
+- [ ] Readme, docs
