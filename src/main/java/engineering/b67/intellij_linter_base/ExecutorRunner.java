@@ -15,7 +15,7 @@ import java.nio.file.Paths;
 public abstract class ExecutorRunner implements Runner {
     protected static final Logger log = Logger.getInstance(ExecutorRunner.class);
 
-    public Executor createExecutor(String executable, VirtualFile virtualFile, String basePath, Service state) {
+    public Executor createExecutor(CommandContext executable, VirtualFile virtualFile, String basePath, Service state) {
         Executor executor = new Executor(
                 executable,
                 virtualFile,

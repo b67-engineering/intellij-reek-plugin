@@ -1,6 +1,7 @@
 package engineering.b67.intellij_linter_base;
 
 import com.intellij.openapi.vfs.VirtualFile;
+import engineering.b67.intellij_linter_base.exception.ContextException;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -10,13 +11,13 @@ public interface Runner {
 
     ArrayList<String> getParameters(Service state);
 
-    String getDefaultExecutable(ExecutorContext executorContext);
+    CommandContext getDefaultCommandContext(ExecutorContext executorContext) throws ContextException;
 
     String getFileExtension();
 
     String getOutput(Process process);
 
-    Executor createExecutor(String executable, VirtualFile virtualFile, String basePath, Service state);
+    Executor createExecutor(CommandContext executable, VirtualFile virtualFile, String basePath, Service state);
 
-    List<Warning> execute(@NotNull final ExecutorContext executorContext);
+    List<Warning> execute(@NotNull final ExecutorContext executorContext) throws ContextException;
 }

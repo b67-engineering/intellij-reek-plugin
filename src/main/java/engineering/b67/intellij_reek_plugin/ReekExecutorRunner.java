@@ -2,11 +2,13 @@ package engineering.b67.intellij_reek_plugin;
 
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.vfs.VirtualFile;
 import engineering.b67.intellij_linter_base.*;
+import engineering.b67.intellij_linter_base.exception.ContextException;
 import org.apache.commons.lang.StringUtils;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.plugins.ruby.gem.GemUtil;
+import org.jetbrains.plugins.ruby.gem.RubyGemExecutionContext;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -18,14 +20,14 @@ import java.util.stream.Collectors;
 public class ReekExecutorRunner extends ExecutorRunner implements Runner {
 
     @Override
-    public List<Warning> execute(@NotNull ExecutorContext executorContext) {
+    public List<Warning> execute(@NotNull ExecutorContext executorContext) throws ContextException {
         Editor editor = executorContext.getEditor();
         VirtualFile file = createVirtualFile(editor.getDocument(), getFileExtension());
         Project project = editor.getProject();
         ReekService state = ReekService.getInstance(project);
 
         Executor executor = createExecutor(
-                StringUtils.defaultIfEmpty(state.getExecutable(), getDefaultExecutable(executorContext)),
+                getCommandContext(state, executorContext),
                 file,
                 project.getBasePath(),
                 state
@@ -67,16 +69,26 @@ public class ReekExecutorRunner extends ExecutorRunner implements Runner {
         return parameters;
     }
 
+    public CommandContext getCommandContext(ReekService state, ExecutorContext executorContext) throws ContextException {
+        if (StringUtils.isEmpty(state.getExecutable())) {
+            return getDefaultCommandContext(executorContext);
+        }
+
+        return new CommandContext(state.getExecutable(), null);
+    }
+
     @Override
-    public String getDefaultExecutable(ExecutorContext executorContext) {
-        // FIXME: Check if it is in bundler / sdk / whatever
-        // sdk - GemSearchUtil.findGem(executorContext.getSdk(), "reek");
-        // bundle - GemSearchUtil.findGem(executorContext.getModule(), "reek");
+    public CommandContext getDefaultCommandContext(ExecutorContext executorContext) throws ContextException {
+        Sdk sdk = executorContext.getSdk();
+        String executable = RubyGemExecutionContext.getScriptPath(executorContext.getSdk(), executorContext.getModule(), "reek");
 
-        String executable = GemUtil.getGemExecutableRubyScriptPath(executorContext.getModule(), executorContext.getSdk(), "reek", "reek");
-        String interpreter = executorContext.getSdk().getHomePath();
+        if (executable == null || sdk == null) {
+            throw new ContextException();
+        }
 
-        return String.format("%s|%s", interpreter, executable);
+        String interpreter = sdk.getHomePath();
+
+        return new CommandContext(executable, interpreter);
     }
 
     @Override

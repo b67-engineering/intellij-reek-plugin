@@ -11,11 +11,11 @@ public class Executor {
     protected static final Logger log = Logger.getInstance(Executor.class);
 
     private ArrayList<String> parameters;
-    private String executable;
-    private VirtualFile virtualFile;
-    private String basePath;
+    private final CommandContext executable;
+    private final VirtualFile virtualFile;
+    private final String basePath;
 
-    public Executor(String executable, VirtualFile virtualFile, String basePath) {
+    public Executor(CommandContext executable, VirtualFile virtualFile, String basePath) {
         this.executable = executable;
         this.virtualFile = virtualFile;
         this.basePath = basePath;
@@ -38,17 +38,11 @@ public class Executor {
     private GeneralCommandLine commandLine() {
         final GeneralCommandLine commandLine = new GeneralCommandLine();
 
-        // FIXME: If it have interpreter,
-        // then needs to be splitted due to escaping
-        if (executable.contains("|")) {
-            String[] executableDetails = executable.split("\\|");
-            commandLine.setExePath(executableDetails[0]);
-
-            for (int i = 1; i < executableDetails.length; i++) {
-                commandLine.addParameters(executableDetails[i]);
-            }
+        if (executable.getInterpreter() == null) {
+            commandLine.setExePath(executable.getExecutable());
         } else {
-            commandLine.setExePath(executable);
+            commandLine.setExePath(executable.getInterpreter());
+            commandLine.addParameters(executable.getExecutable());
         }
 
         commandLine.setWorkDirectory(basePath);
