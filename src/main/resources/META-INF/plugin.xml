@@ -4,8 +4,7 @@
     <vendor email="hello+intellij@b67.engineering" url="https://b67.engineering">b67.engineering</vendor>
 
     <description><![CDATA[
-    Enter short description for your plugin here.<br>
-    <em>most HTML tags may be used</em>
+    Reek Linter Plugin for JetBrains products - IntelliJ and RubyMine
     ]]></description>
 
     <actions>

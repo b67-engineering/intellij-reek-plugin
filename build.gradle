@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'org.jetbrains.intellij' version '0.4.16'
+    id 'maven-publish'
 }
 
 group 'engineering.b67'
@@ -27,6 +28,18 @@ intellij {
 
 patchPluginXml {
     changeNotes """
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>"""
+      0.1-SNAPSHOT. First testing release"""
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = "https://maven.pkg.github.com/b67-engineering/intellij-reek-plugin"
+            credentials {
+                username System.getenv("GITHUB_ACTOR")
+                password System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
 }
