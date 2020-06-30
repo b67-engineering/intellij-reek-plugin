@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'engineering.b67'
-version '0.1-SNAPSHOT'
+version '0.1-eap'
 
 sourceCompatibility = 1.8
 
@@ -28,7 +28,7 @@ intellij {
 
 patchPluginXml {
     changeNotes """
-      0.1-SNAPSHOT. First testing release"""
+      0.1-eap. First testing release"""
 }
 
 publishing {
