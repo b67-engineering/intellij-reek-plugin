@@ -79,6 +79,4 @@ fabric.properties
 
 # Custom (not sure if I want to commit them)
 /build
-/gradle
-gradlew
-gradlew.bat
+!/gradle/wrapper/gradle-wrapper.jar
