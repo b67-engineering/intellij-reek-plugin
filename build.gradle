@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'engineering.b67'
-version '0.1-eap'
+version '0.2'
 
 sourceCompatibility = 1.8
 
@@ -14,8 +14,8 @@ repositories {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile group: 'org.codehaus.jettison', name: 'jettison', version: '1.4.0'
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
+    implementation group: 'org.codehaus.jettison', name: 'jettison', version: '1.4.0'
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
@@ -28,8 +28,10 @@ intellij {
 }
 
 patchPluginXml {
-    changeNotes """
-      0.1-eap. First testing release"""
+    changeNotes = """
+      0.1-eap. First testing release
+      0.2. Update dependecies"""
+
 }
 
 publishing {
