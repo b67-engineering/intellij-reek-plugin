@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '0.4.16'
+    id "org.jetbrains.intellij" version "1.17.1"
     id 'maven-publish'
 }
 
@@ -20,8 +20,9 @@ dependencies {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version 'IU-192.7142.36'
-    plugins = ["org.jetbrains.plugins.ruby:2019.2.20191029"]
+    version = "2022.1.1"
+    type = "IU"
+    plugins = ["org.jetbrains.plugins.ruby:221.5591.52"]
 
     updateSinceUntilBuild = false
 }
