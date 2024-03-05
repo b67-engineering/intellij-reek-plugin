@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'engineering.b67'
-version '0.2'
+version '0.3'
 
 sourceCompatibility = 1.8
 
@@ -29,8 +29,9 @@ intellij {
 
 patchPluginXml {
     changeNotes = """
-      0.1-eap. First testing release
-      0.2. Update dependecies"""
+      0.1-eap. First testing release<br />
+      0.2. Update dependecies<br />
+      0.3. Fix null pointer exception"""
 
 }
 
