@@ -82,7 +82,7 @@ public class ReekExecutorRunner extends ExecutorRunner implements Runner {
         Sdk sdk = executorContext.getSdk();
         String executable = RubyGemExecutionContext.getScriptPath(executorContext.getSdk(), executorContext.getModule(), "reek");
 
-        if (executable == null || sdk == null) {
+        if (executable == null) {
             throw new ContextException();
         }
 
