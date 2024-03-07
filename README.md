@@ -15,5 +15,14 @@ You can provide path to `.reek.yml` in `Settings > Tools > Reek Linter`.
 
 As mentioned in dependencies - You can provide path to Your `reek` executable or use default loader that uses project SDK / gems provided in `Gemfile`.
 
+## Building 
+
+    curl -s "https://get.sdkman.io" | bash
+    sdk install gradle 8.6
+    sdk install groovy 4.0.18
+    sdk use gradle 8.6
+    sdk use groovy 4.0.18
+    gradle build
+
 ### Credentials
 Plugin has been inspired by [intellij-protolint](https://github.com/yoheimuta/intellij-protolint).
