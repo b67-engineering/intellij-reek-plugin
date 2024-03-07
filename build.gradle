@@ -1,11 +1,11 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '0.4.16'
+    id "org.jetbrains.intellij" version "1.17.1"
     id 'maven-publish'
 }
 
 group 'engineering.b67'
-version '0.1-eap'
+version '0.3'
 
 sourceCompatibility = 1.8
 
@@ -14,21 +14,25 @@ repositories {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile group: 'org.codehaus.jettison', name: 'jettison', version: '1.4.0'
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
+    implementation group: 'org.codehaus.jettison', name: 'jettison', version: '1.4.0'
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version 'IU-192.7142.36'
-    plugins = ["org.jetbrains.plugins.ruby:2019.2.20191029"]
+    version = "2022.1.1"
+    type = "IU"
+    plugins = ["org.jetbrains.plugins.ruby:221.5591.52"]
 
     updateSinceUntilBuild = false
 }
 
 patchPluginXml {
-    changeNotes """
-      0.1-eap. First testing release"""
+    changeNotes = """
+      0.1-eap. First testing release<br />
+      0.2. Update dependecies<br />
+      0.3. Fix null pointer exception"""
+
 }
 
 publishing {

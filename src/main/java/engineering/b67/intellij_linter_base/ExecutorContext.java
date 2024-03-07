@@ -26,8 +26,11 @@ public class ExecutorContext {
     }
 
     public Sdk getSdk() {
-        ModuleRootManager moduleRootManager = ModuleRootManager.getInstance(getModule());
-
-        return moduleRootManager.getSdk();
+        if (getModule() == null) {
+            return null;
+        } else {
+            ModuleRootManager moduleRootManager = ModuleRootManager.getInstance(getModule());
+            return moduleRootManager.getSdk();
+        }
     }
 }
